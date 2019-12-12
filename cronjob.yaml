@@ -1,0 +1,35 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: "s3-migrator-cronjob"
+  namespace: custom-namespace
+spec:
+  schedule: "0 */1 * * *"
+  concurrencyPolicy: "Forbid"
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          #imagePullSecrets:
+          #- name: {{ .Values.image_pull_secrets }}
+          containers:
+          - name: "migrator"
+            command: ["sh", "-c", "/scripts/s3-migrate.sh"]
+            image: mikesir87/aws-cli
+            imagePullPolicy: Always
+            volumeMounts:
+              - name: scripts
+                mountPath: /scripts
+            env:
+              - name: "SOURCE_BUCKET"
+                value: "some-source-bucket"
+              - name: "DESTINATION_BUCKET"
+                value: "some-destination-bucket"
+          volumes:
+            - name: scripts
+              configMap:
+                name: scripts
+                defaultMode: 0777
