@@ -1,6 +1,6 @@
 # s3-migrator
 
-This reporsitory describes how you can migrate your s3 bucket from one region in AWS to another region. 
+This reporsitory describes how you can migrate your s3 bucket from one region in AWS to another region using K8s cronjob.
 
 **NOTE** 
 
