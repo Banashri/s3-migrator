@@ -37,3 +37,6 @@ kubectl create configmap scripts --from-file=script.sh -n custom-namespace
 ```
 kubectl create -f cronjob.yaml
 ```
+
+## License
+Licensed under the MIT license
