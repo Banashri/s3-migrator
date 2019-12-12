@@ -14,9 +14,18 @@ The idea is the run a K8s cronjob in your K8s cluster which basically runs a scr
 
 All the necessary artifacts are added to this repository.
 
+
+## Pre-requisites
+
+* Create a IAM role in each source and destionation AWS account which has full access to S3. For destination account, the IAM user is `bucket_relocator` (as per the script).
+* Versioning is enabled in both source and destination.
+* SSE is enabled in buckets. If not, you need to adjust the script accordingly.
+
 ## Steps
 
 * Create K8s configmap
+
+You may provide the hard-coded configurations for accounts, buckets or you can populate from the environment variables specified from the cronjob.
 
 This `configmap` object will store the script which would be run by the cronjob.
 ```
@@ -28,4 +37,3 @@ kubectl create configmap scripts --from-file=script.sh -n custom-namespace
 ```
 kubectl create -f cronjob.yaml
 ```
-
